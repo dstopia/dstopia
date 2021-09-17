@@ -39,3 +39,11 @@
     http://localhost:3000/<nama page>
     ```
 > **_Note:_** file ejs sama seperti file html hanya beda ekstensi, file ejs di gunakan karena app ini menggunakan view template ejs
+
+### Router yg tersedia
+
+
+http://localhost:3000/\
+http://localhost:3000/:username\
+http://localhost:3000/login\
+http://localhost:3000/signup
