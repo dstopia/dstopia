@@ -11,6 +11,8 @@ router.get('/login', function (req, res) {
     res.render('login')
 })
 
+/** tambah page baru di atas comment ini */
+
 /* GET User page. */
 router.get('/:username', function (req, res) {
     // mengambil username dari url

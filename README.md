@@ -1,16 +1,41 @@
-### Dstopia Blog👋
+## Dstopia Blog👋
+  
 
-<!--
-**dstopia/dstopia** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+### Setup local development
 
-Here are some ideas to get you started:
+1. clone repository
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+    ```
+    git clone https://github.com/dstopia/dstopia.git
+    cd dstopia
+    ```
+
+2. install packages
+
+    ```
+    npm install
+    ```
+
+3. run server
+    ```
+    npm run dev
+    ```
+
+### Membuat page baru
+
+1. edit file ./src/routes/index.js lalu tambahkan kode
+    ```
+    /* GET <nama page> page. */
+    router.get('/<nama page>', function (req, res) {
+        res.render('<nama page>')
+    })
+    ```
+2. buat file baru di folder views 
+    ```
+    <nama page>.ejs
+    ```
+3. untuk membuka page di browser
+    ```
+    http://localhost:3000/<nama page>
+    ```
+> **_Note:_** file ejs sama seperti file html hanya beda ekstensi, file ejs di gunakan karena app ini menggunakan view template ejs
