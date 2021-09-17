@@ -42,8 +42,9 @@
 
 ### Router yg tersedia
 
-
-http://localhost:3000/\
-http://localhost:3000/:username\
-http://localhost:3000/login\
+```
+http://localhost:3000/
+http://localhost:3000/:username
+http://localhost:3000/login
 http://localhost:3000/signup
+```
