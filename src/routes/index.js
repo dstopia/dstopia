@@ -3,8 +3,8 @@ const router = express.Router()
 
 /* Require controllers */
 const { renderUser } = require('../controllers/dashboardUser.controllers')
-const { renderLogin } = require('../controllers/login.controllers')
-const { renderSignup } = require('../controllers/signup.controllers')
+const { renderLogin, handleUserLogin } = require('../controllers/login.controllers')
+const { renderSignup, handleRegistration } = require('../controllers/signup.controllers')
 
 /**Tambah page baru di bawah sini */
 
@@ -12,9 +12,13 @@ const { renderSignup } = require('../controllers/signup.controllers')
 
 /* GET signup page. */
 router.get('/signup', renderSignup)
+router.post('/signup', handleRegistration)
+/* end signup page */
 
 /* GET login page. */
 router.get('/login', renderLogin)
+router.post('/login', handleUserLogin)
+/* end login page */
 
 /* GET User page. */
 router.get('/:username', renderUser)
