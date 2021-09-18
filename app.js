@@ -3,9 +3,25 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const session = require('express-session')
 
 const app = express()
 app.use(cors())
+
+// session configuration
+app.use(
+    session({
+        secret: 'Secret Key',
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            path: '/',
+            httpOnly: true,
+            secure: false,
+            maxAge: null,
+        },
+    })
+)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
