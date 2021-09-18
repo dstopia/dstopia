@@ -26,7 +26,7 @@ router.get('/:username', renderUser)
 
 /* GET home page. */
 router.get('/', function (req, res) {
-    res.render('index')
+    res.json({message:'Home Page'})
 })
 /* end Home page */
 

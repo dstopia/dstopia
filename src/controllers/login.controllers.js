@@ -1,7 +1,7 @@
 const debug = require('debug')('dev')
 
 exports.renderLogin = (req, res) => {
-    res.render('Login')
+    res.json({message:'Login Page'})
 }
 
 exports.handleUserLogin = (req, res) => {

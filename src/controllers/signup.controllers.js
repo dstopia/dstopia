@@ -1,7 +1,7 @@
 const debug = require('debug')('dev')
 
 exports.renderSignup = (req, res) => {
-    res.render('signup')
+    res.json({signup:'Signup page'})
 
 }
 
