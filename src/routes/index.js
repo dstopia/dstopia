@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 /* Require controllers */
-const { renderUser } = require('../controllers/dashboardUser.controllers')
+const { renderUser } = require('../controllers/user.controllers')
 const { renderLogin, handleUserLogin } = require('../controllers/login.controllers')
 const { renderSignup, handleRegistration } = require('../controllers/signup.controllers')
 
@@ -22,10 +22,12 @@ router.post('/login', handleUserLogin)
 
 /* GET User page. */
 router.get('/:username', renderUser)
+/* end User page */
 
 /* GET home page. */
 router.get('/', function (req, res) {
     res.render('index')
 })
+/* end Home page */
 
 module.exports = router
