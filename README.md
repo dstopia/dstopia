@@ -48,3 +48,8 @@ http://localhost:3000/:username
 http://localhost:3000/login
 http://localhost:3000/signup
 ```
+
+4. add untracked file dan commit secara otomotis
+    ```
+    npm run commit -- <commit meassage>
+    ```
