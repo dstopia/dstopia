@@ -1,4 +1,4 @@
-/** Save User */
+/** Save User Data*/
 
 // save new user to db
 exports.saveUser = (data) => {}
