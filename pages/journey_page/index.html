@@ -15,6 +15,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
+    <!-- Menyisipkan library Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyF5Xm1dEYWWQw8TGmMgeOzUrULM7lS3k&callback=initMap"></script>
+
     <!-- My CSS -->
     <link rel="stylesheet" href="style.css" />
 
@@ -122,28 +125,204 @@
     </div>
 
     <div class="container">
-      <div class="row row-cols-auto">
-        <div class="col">
-            <img src="https://source.unsplash.com/200x75/?general" class="rounded-pill btn shadow p-0" alt="...">
+      <div class="row d-flex justify-content-center">
+        <div class="col md-6 category btn">
+            <img src="https://source.unsplash.com/150x50/?general" class="image rounded-pill shadow p-0" alt="...">
+            <div class="overlay">
+              <div class="text">General</div>
+            </div>
         </div>
-        <div class="col">
-          <img src="https://source.unsplash.com/200x75/?nature" class="rounded-pill btn shadow p-0" alt="...">
+        <div class="col md-6 category btn">
+          <img src="https://source.unsplash.com/150x50/?nature" class="rounded-pill btn shadow p-0" alt="...">
+          <div class="overlay">
+            <div class="text">Nature</div>
+          </div>
         </div>
-        <div class="col">
-          <img src="https://source.unsplash.com/200x75/?education" class="rounded-pill btn shadow p-0" alt="...">
+        <div class="col md-6 category btn">
+          <img src="https://source.unsplash.com/150x50/?education" class="rounded-pill btn shadow p-0" alt="...">
+          <div class="overlay">
+            <div class="text">Education</div>
+          </div>
         </div>
-        <div class="col">
-          <img src="https://source.unsplash.com/200x75/?historical" class="rounded-pill btn shadow p-0" alt="...">
+        <div class="col md-6 category btn">
+          <img src="https://source.unsplash.com/150x50/?historical" class="rounded-pill btn shadow p-0" alt="...">
+          <div class="overlay">
+            <div class="text">Historical</div>
+          </div>
         </div>
+        <div class="col md-6 category btn">
+          <img src="https://source.unsplash.com/150x50/?culinary" class="rounded-pill btn shadow p-0" alt="...">
+          <div class="overlay">
+            <div class="text">Culinary</div>
+          </div>
+        </div>
+        <div class="col md-6 category btn">
+          <img src="https://source.unsplash.com/150x50/?shopping" class="rounded-pill btn shadow p-0" alt="...">
+          <div class="overlay">
+            <div class="text">Shopping</div>
+          </div>
+        </div>
+        <div class="col md-6 category btn">
+          <img src="https://source.unsplash.com/150x50/?culture" class="rounded-pill btn shadow p-0" alt="...">
+          <div class="overlay">
+            <div class="text">Culture</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <div class="col">
-          <img src="https://source.unsplash.com/200x75/?culinary" class="rounded-pill btn shadow p-0" alt="...">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-4">
+          <div id="googleMap" style="width: 100%; height:100%"></div>
         </div>
-        <div class="col">
-          <img src="https://source.unsplash.com/200x75/?shoping" class="rounded-pill btn shadow p-0" alt="...">
-        </div>
-        <div class="col">
-          <img src="https://source.unsplash.com/200x75/?culture" class="rounded-pill btn shadow p-0" alt="...">
+        <div class="col-8">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card rounded">
+                    <div class="position-absolute px-3 py-2 rounded" style="background-color: rgba(0,0,0,0.7)"><a href="#" class="text-white text- text-decoration-none">Category</a></div>
+                    <img src="https://source.unsplash.com/500x400?" class="card-img-top" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">Title</h5>
+                      <p>By.
+                        <small class="text-muted">
+                        <a href="#" class="text-decoration-none">Author</a> 3 Jam yang lalu
+                        </small>
+                        </p>
+                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui quod nam tempora. Numquam aliquam tempore, cupiditate expedita vitae minus.</p>
+                      <a href="#" class="btn btn-info shadow-none">Read more</a>
+                    </div>
+                  </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -156,5 +335,61 @@
       integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
       crossorigin="anonymous"
     ></script>
+    <!-- Maps -->
+    <script>
+      // variabel global marker
+      var marker;
+  
+        function taruhMarker(peta, posisiTitik) {
+        if (marker) {
+          // pindahkan marker
+          marker.setPosition(posisiTitik);
+        } else {
+          // buat marker baru
+          marker = new google.maps.Marker({
+            position: posisiTitik,
+            map: peta,
+          });
+        }
+         // isi nilai koordinat ke form
+        document.getElementById("lat").value = posisiTitik.lat();
+        document.getElementById("lng").value = posisiTitik.lng();
+      }
+  
+      // fungsi initialize untuk mempersiapkan peta
+      function initialize() {
+        var propertiPeta = {
+          center: new google.maps.LatLng(-6.209004369420562, 106.8473994296479),
+          // center: new google.maps.LatLng(
+          //   document.getElementById("Lat").value =posisiTitik.lat(),
+          //   document.getElementById("Long").value =posisiTitik.long()
+          // ),
+          zoom: 9, //Tingkat skala (0:Bumi, 1:Peta Dunia, 5:Landmass/Continent, 10:Kota, 15:Jalan, 20:Bangunan)
+          mapTypeId: google.maps.MapTypeId.ROADMAP, // Tipe MAPS yang digunakan (ROADMAP, satelite, terrain, hybrit)
+        };
+  
+        var peta = new google.maps.Map(
+          document.getElementById("googleMap"),
+          propertiPeta
+        );
+  
+        // membuat Marker
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(-6.209004369420562, 106.8473994296479),
+          map: peta,
+          // animation: google.maps.Animation.DROP, // DROP //Menambahkan Animasi MARKER BOUNCE
+          icon: "https://icons.iconarchive.com/icons/flaticonmaker/flat-style/32/flag-icon.png",
+        });
+  
+        // even listner ketika peta diklik
+        google.maps.event.addListener(peta, "click", function (event) {
+          taruhMarker(this, event.latLng);
+        });
+      }
+  
+      // event jendela di-load
+      google.maps.event.addDomListener(window, "load", initialize);
+    </script>
+    <!-- End Maps -->
   </body>
 </html>
