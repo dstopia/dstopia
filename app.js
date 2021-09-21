@@ -14,6 +14,9 @@ app.use(express.urlencoded({ extended: false }))
 // database connections
 require('./src/config/mongodb')
 
+// firebase
+const { admin, db } = require('./src/config/firebase')
+
 // Routes
 app.use('/', require('./src/routes/index'))
 
