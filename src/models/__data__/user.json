@@ -1,0 +1,19 @@
+[
+    {   "_id":"1",
+        "username":"lorem123",
+        "email":"lorem@gmail.com",
+        "password":"secret"
+    },
+    {
+        "_id":"2",
+        "username":"ispum123",
+        "email":"lorem@gmail.com",
+        "password":"secret"
+    },
+    {
+        "_id":"3",
+        "username":"ametz123",
+        "email":"ametz@gmail.com",
+        "password":"secret"
+    }
+]

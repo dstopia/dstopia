@@ -1,3 +1,5 @@
+'use strict'
+
 exports.getUser = (req,res,next) => {}
 
 exports.addUser = (req,res,next) => {}

@@ -1,3 +1,5 @@
+'use strict'
+
 /** Save User Data*/
 
 // save new user to db
