@@ -27,6 +27,10 @@ const userSchema = new Schema(
             required: 'Password is required',
             min: 6,
         },
+        desc: {
+            type: String,
+            default: 'No Description.',
+        },
         post: [
             {
                 type: Schema.Types.ObjectId,

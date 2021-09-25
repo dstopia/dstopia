@@ -1,6 +1,6 @@
 'use strict'
 
-const { Post } = require('../models/post.models')
+const Post = require('../models/post.models')
 const User = require('../models/user.models')
 
 exports.addPost = (req, res) => {

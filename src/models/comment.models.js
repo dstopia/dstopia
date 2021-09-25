@@ -4,41 +4,35 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const moment = require('moment')
 
-const postSchema = new Schema(
+const postCommentSchema = new Schema(
     {
         username: {
             type: String,
-            required: true,
+            default: 'SomeOne',
         },
         img: {
             type: String,
-            default: 'https://source.unsplash.com/random/1254x836',
+            default: 'https://source.unsplash.com/random/128x128',
         },
         timeSend: {
             type: String,
             default: moment().format('hh:mm A'),
         },
+        msg: {
+            type: String,
+            max: 100,
+            default: 'No Message',
+        },
         isLiked: {
             type: Boolean,
             default: false,
         },
-        caption: {
-            type: String,
-            max: 100,
-            default: 'No Caption',
-        },
-        comment: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'PostComment',
-            },
-        ],
     },
     {
         timestamps: true,
     }
 )
 
-const Post = mongoose.model('Post', postSchema)
+const PostComment = mongoose.model('PostComment', postCommentSchema)
 
-module.exports = Post
+module.exports = PostComment

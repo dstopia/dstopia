@@ -7,7 +7,7 @@ exports.getUsers = async (req, res) => {
         const user = await User.find()
         res.json(user)
     } catch (error) {
-        console.log(error)
+        res.status(404).json(error)
     }
 }
 
@@ -17,20 +17,38 @@ exports.addUser = async (req, res) => {
         const data = await user.save()
         res.json(data)
     } catch (error) {
-        console.log(error)
+        res.status(404).json(error)
     }
 }
 
 exports.updateUserData = async (req, res) => {
     try {
-        const id = req.body.id
-        const query = req.body.query
-        const data = User.findByIdAndUpdate(id, query, { new: true })
-        res.json(data)
+        const { id, queryString, data} = req.body
+        let query = {}
+        switch(queryString) {
+            case 'username':
+                query = {
+                    username: data
+                }
+                break
+            case 'email':
+                query = {
+                    email: data
+                }
+                break
+            case 'desc':
+                query = {
+                    desc: data
+                }
+                break
+            default :
+                query = {}
+        }
+        const dataQuery = User.findByIdAndUpdate(id, query, { new: true })
+        res.json(dataQuery)
     } catch (error) {
-        console.log(error)
+        res.status(404).json(error)
     }
-    res.json({ message: 'update user' })
 }
 
 exports.removeUser = async (req, res) => {
@@ -39,7 +57,7 @@ exports.removeUser = async (req, res) => {
         const deleted = await User.findByIdAndDelete(id)
         res.json(deleted)
     } catch (error) {
-        console.log({ errorRemoveUser: error })
+        res.status(404).json(error)
     }
 }
 
@@ -48,6 +66,6 @@ exports.getUserWithPost = async (req, res) => {
         const user = await User.find().populate('post')
         res.json(user)
     } catch (error) {
-        console.log(error)
+        res.status(404).json(error)
     }
 }
