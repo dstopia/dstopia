@@ -2,7 +2,7 @@
 
 const User = require('../models/user.models')
 
-exports.getUsers = async (req, res, next) => {
+exports.getUsers = async (req, res) => {
     try {
         const user = await User.find()
         res.json(user)
@@ -11,7 +11,7 @@ exports.getUsers = async (req, res, next) => {
     }
 }
 
-exports.addUser = async (req, res, next) => {
+exports.addUser = async (req, res) => {
     try {
         const user = new User(req.body)
         const data = await user.save()
@@ -21,7 +21,7 @@ exports.addUser = async (req, res, next) => {
     }
 }
 
-exports.updateUserData = async (req, res, next) => {
+exports.updateUserData = async (req, res) => {
     try {
         const id = req.body.id
         const query = req.body.query
@@ -33,6 +33,21 @@ exports.updateUserData = async (req, res, next) => {
     res.json({ message: 'update user' })
 }
 
-exports.removeUser = (req, res, next) => {
-    res.josn({ message: 'remove user' })
+exports.removeUser = async (req, res) => {
+    const { id } = req.body
+    try {
+        const deleted = await User.findByIdAndDelete(id)
+        res.json(deleted)
+    } catch (error) {
+        console.log({ errorRemoveUser: error })
+    }
+}
+
+exports.getUserWithPost = async (req, res) => {
+    try {
+        const user = await User.find().populate('post')
+        res.json(user)
+    } catch (error) {
+        console.log(error)
+    }
 }

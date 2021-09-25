@@ -1,3 +1,4 @@
+// Menambah user baru
 POST http://localhost:3003/user
 Content-Type: application/json
 
@@ -9,10 +10,17 @@ Content-Type: application/json
 
 ###
 
+// Menampilkan seluruh user
 GET http://localhost:3003/user
 
 ###
 
+// Menampilkan seluruh user beserta postingan
+GET http://localhost:3003/user/post
+
+###
+
+// Menambah postingan baru
 POST http://localhost:3003/post
 Content-Type: application/json
 
@@ -21,3 +29,8 @@ Content-Type: application/json
     "username":"gdfgfd",
     "caption":"hai my dear love"
 }
+
+###
+
+// Menampilkan seluruh postingan
+GET http://localhost:3003/post

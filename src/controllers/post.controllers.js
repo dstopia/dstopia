@@ -40,7 +40,14 @@ exports.addPost = (req, res) => {
     })
 }
 
-exports.getPost = (req, res, next) => {}
+exports.getPost = async (req, res) => {
+    try {
+        const data = await Post.find()
+        res.json(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 exports.updatePostData = (req, res, next) => {}
 
