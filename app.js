@@ -2,7 +2,6 @@
 
 const createError = require('http-errors')
 const express = require('express')
-const path = require('path')
 const cors = require('cors')
 
 const app = express()
@@ -15,8 +14,14 @@ app.use(express.urlencoded({ extended: false }))
 require('./src/config/mongodb')
 
 // Routes
-app.use('/', require('./src/routes/index'))
+app.use('/user', require('./src/routes/user.routes'))
+app.use('/post', require('./src/routes/post.routes'))
 
+app.use('/', (req, res) => {
+    res.json({
+        message: 'Welcome to dstopia server',
+    })
+})
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404))
@@ -30,7 +35,7 @@ app.use(function (err, req, res) {
 
     // render the error page
     res.status(err.status || 500)
-    res.json({message:'Page Not Found'})
+    res.json({ message: 'Page Not Found' })
 })
 
 module.exports = app
