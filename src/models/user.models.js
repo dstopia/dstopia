@@ -27,6 +27,12 @@ const userSchema = new Schema(
             required: 'Password is required',
             min: 6,
         },
+        post: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Post',
+            },
+        ],
     },
     {
         timestamps: true,

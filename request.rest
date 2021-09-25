@@ -2,10 +2,22 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"Alexander",
-    "email":"alex@gmail.com",
+    "username":"gdfgfd",
+    "email":"dfgdf@gmail.com",
     "password":"1234567"
 }
 
 ###
+
 GET http://localhost:3003/user
+
+###
+
+POST http://localhost:3003/post
+Content-Type: application/json
+
+{
+    "userId":"614ed91a9c95c28a27ce1dcd",
+    "username":"gdfgfd",
+    "caption":"hai my dear love"
+}

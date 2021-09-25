@@ -12,15 +12,15 @@ const {
 
 
 // get post
-router.get('/post', getPost)
+router.get('/', getPost)
 
 // Add post 
-router.post('/post', addPost)
+router.post('/', addPost)
 
 // update post
-router.put('/post', updatePostData)
+router.put('/', updatePostData)
 
 // delete post
-router.delete('/post', removePost)
+router.delete('/', removePost)
 
 module.exports = router

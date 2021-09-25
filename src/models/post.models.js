@@ -4,15 +4,21 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const moment = require('moment')
 
+const pathImage = 'https://source.unsplash.com/'
+
 const postSchema = new Schema(
     {
         username: {
             type: String,
             required: true,
-            unique: true,
+        },
+        img: {
+            type: String,
+            default: 'random/1254x836',
+            get: (v) => `${pathImage}${v}`,
         },
         timeSend: {
-            type: Date,
+            type: String,
             default: moment().format('hh:mm A'),
         },
         isLiked: {
@@ -42,9 +48,12 @@ const postCommentSchema = new Schema(
             type: String,
             default: 'SomeOne',
         },
-        img: 'https://source.unsplash.com/random/128x128',
+        img: {
+            type: String,
+            default: 'https://source.unsplash.com/random/128x128',
+        },
         timeSend: {
-            type: Date,
+            type: String,
             default: moment().format('hh:mm A'),
         },
         msg: {

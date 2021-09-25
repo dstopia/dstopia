@@ -1,9 +1,47 @@
 'use strict'
 
-exports.getPost = (req,res,next) => {}
+const { Post } = require('../models/post.models')
+const User = require('../models/user.models')
 
-exports.addPost = (req,res,next) => {}
+exports.addPost = (req, res) => {
+    const { userId, username, caption } = req.body
 
-exports.updatePostData = (req,res,next) => {}
+    const post = new Post({
+        username: username,
+        userId: userId,
+        caption: caption,
+    })
 
-exports.removePost = (req,res,next) => {}
+    post.save((err, postResult) => {
+        if (err) {
+            console.log({ postError: err })
+        } else {
+            // push post id to user collection post array
+            User.findByIdAndUpdate(
+                { _id: userId },
+                {
+                    $push: {
+                        post: {
+                            _id: postResult._id,
+                        },
+                    },
+                },
+                {},
+                (err, userResult) => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log(userResult)
+                    }
+                }
+            )
+            res.json(postResult)
+        }
+    })
+}
+
+exports.getPost = (req, res, next) => {}
+
+exports.updatePostData = (req, res, next) => {}
+
+exports.removePost = (req, res, next) => {}
