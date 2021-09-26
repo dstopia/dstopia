@@ -6,7 +6,7 @@ const router = require('express').Router()
 const {
     getPost,
     addPost,
-    updatePostData,
+    updatePostCaption,
     removePost,
 } = require('../controllers/post.controllers')
 
@@ -18,7 +18,7 @@ router.get('/', getPost)
 router.post('/', addPost)
 
 // update post
-router.put('/', updatePostData)
+router.put('/', updatePostCaption)
 
 // delete post
 router.delete('/', removePost)

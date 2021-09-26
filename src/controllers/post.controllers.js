@@ -4,17 +4,13 @@ const Post = require('../models/post.models')
 const User = require('../models/user.models')
 
 exports.addPost = (req, res) => {
-    const { userId, username, caption } = req.body
 
-    const post = new Post({
-        username: username,
-        userId: userId,
-        caption: caption,
-    })
+    const post = new Post(req.body)
 
-    post.save((err, postResult) => {
-        if (err) {
-            console.log({ postError: err })
+    post.save((error, postResult) => {
+        if (error) {
+            console.log({ postError: error })
+            res.status(404).json(error)
         } else {
             // push post id to user collection post array
             User.findByIdAndUpdate(
@@ -28,8 +24,9 @@ exports.addPost = (req, res) => {
                 },
                 {},
                 (err, userResult) => {
-                    if (err) {
-                        console.log(err)
+                    if (error) {
+                        console.log(error)
+                        res.status(404).json(error)
                     } else {
                         console.log(userResult)
                     }
@@ -46,9 +43,34 @@ exports.getPost = async (req, res) => {
         res.json(data)
     } catch (error) {
         console.log(error)
+        res.status(404).json(error)
     }
 }
 
-exports.updatePostData = (req, res, next) => {}
+exports.updatePostCaption = (req, res, next) => {
+    try {
+        const { caption, id } = req.body
+        const query = Post.findByIdAndUpdate(id,{
+            $set:{
+                caption
+            }
+        },{
+            new:true
+        })
+        res.json(query)
+    } catch (error) {
+        console.log(error)
+        res.status(404).json(error)
+    }
+}
 
-exports.removePost = (req, res, next) => {}
+exports.removePost = (req, res, next) => {
+    try {
+        const { id } = req.body
+        const query = Post.findByIdAndDelete(id)
+        res.json(query)
+    } catch (error) {
+        console.log(error)
+        res.status(404).json(error)
+    }
+}

@@ -27,6 +27,7 @@ exports.updateUserData = async (req, res) => {
         let query = {}
         switch(queryString) {
             case 'username':
+                // cari semua post pada 'username' dan update
                 query = {
                     username: data
                 }
