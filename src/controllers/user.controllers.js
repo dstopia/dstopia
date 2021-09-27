@@ -2,8 +2,9 @@
 
 const User = require('../models/user.models')
 const debug = require('debug')('dev')
-const { isEmail, isAlphanumeric } = require('validator')
-const { genSalt, hash } = require('bcryptjs')
+const { isEmail, isAlphanumeric, isLength, isNumeric } = require('validator')
+const { genSalt, hash, compare } = require('bcryptjs')
+const { rearg } = require('lodash')
 
 exports.getUsers = async (req, res) => {
     try {
@@ -22,32 +23,32 @@ exports.addUser = async (req, res) => {
 
     // validate username
     username === undefined
-        ? error.push('Username required')
-        : username.length < 4
-        ? error.push('Username must be more than 4 character')
-        : username.length > 15
-        ? error.push('Username must be less than 15 character')
+        ? error.push('Username Required')
+        : !isLength(username, { min: 4, max: 15 })
+        ? error.push('Username must be more than 4 and less than 15 character')
+        : isNumeric(username)
+        ? error.push('Username must contain alphabet')
         : !isAlphanumeric(username) &&
-          error.push('Username must not contain any special characters!')
+          error.push('Username must not contain any special characters')
 
     // cek if username is already exist
     const userExist = await User.findOne({ username })
-    userExist && error.push('User Already Exist!')
+    userExist && error.push('User already exist')
 
     // validate email
     email === undefined
         ? error.push('Email required')
-        : !isEmail(email) && error.push('Email Not Valid')
+        : !isEmail(email) && error.push('Email not valid')
 
     // cek if email is already exist
     const emailExist = await User.findOne({ email })
-    emailExist && error.push('Email Already Exist!')
+    emailExist && error.push('Email already exist!')
 
     // validate password
     let hashedPassword = ''
 
     if (password.length < 6) {
-        error.push('password must be more than 6 characters')
+        error.push('Password must be more than 6 characters')
     } else {
         // hash password
         try {
@@ -77,10 +78,10 @@ exports.addUser = async (req, res) => {
     // save to database
     user.save()
         .then((data) => {
-            res.json({ msg: 'New User Added.', data })
+            res.json({ msg: 'New User Added' })
         })
         .catch((error) => {
-            res.status(422).json(error)
+            res.status(422).json({ msg: 'Failed to add new user', error })
         })
 }
 
@@ -131,5 +132,38 @@ exports.getUserWithPost = async (req, res) => {
         res.json(user)
     } catch (error) {
         res.status(404).json(error)
+    }
+}
+
+exports.checkUser = async (req, res) => {
+    const { username, password } = req.body
+
+    let passToCheck = ''
+    let userId = ''
+
+    if (isEmail(username)) {
+        // get user password by email
+        const user = await User.findOne({ email: username }, 'password')
+        if (!user) {
+            return res.status(404).json({ msg: 'Email not found' })
+        } else {
+            passToCheck = user.password
+            userId = user._id
+        }
+    } else {
+        // get user password by username
+        const user = await User.findOne({ username: username }, 'password')
+        if (!user) {
+            return res.status(404).json({ msg: 'Username not found' })
+        } else {
+            passToCheck = user.password
+            userId = user._id
+        }
+    }
+    const isValid = await compare(password, passToCheck)
+    if (isValid) {
+        return res.json({ id: userId })
+    } else {
+         return res.status(403).json({ msg: 'Incorrect password' })
     }
 }

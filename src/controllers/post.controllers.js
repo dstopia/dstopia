@@ -4,7 +4,8 @@ const Post = require('../models/post.models')
 const User = require('../models/user.models')
 
 exports.addPost = (req, res) => {
-    const { userId } = req.body
+    const { userId, username, caption } = req.body
+    
     const post = new Post(req.body)
 
     post.save((error, postResult) => {

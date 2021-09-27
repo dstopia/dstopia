@@ -3,10 +3,10 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"weh",
+    "username":"kampung",
     "gender":"male",
-    "email":"daRnhdigmaiil.om",
-    "password":"67"
+    "email":"daRrtynhdi@gmaiil.om",
+    "password":"67werewrewr"
 }
 
 ###
@@ -14,6 +14,14 @@ Content-Type: application/json
 // Menampilkan seluruh user
 GET http://localhost:3003/user
 
+###
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "username":"kampung",
+    "password":"67werewrewr"
+}
 ###
 
 // Menampilkan seluruh user beserta postingan
@@ -27,6 +35,7 @@ Content-Type: application/json
 
 {
     "userId":"614ed91a9c95c28a27ce1dcd",
+    "imgPath":"https://source.unsplash.com/random/1254x836",
     "username":"opoppo",
     "caption":"hai my dear love"
 }

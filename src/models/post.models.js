@@ -10,7 +10,7 @@ const postSchema = new Schema(
             type: String,
             required: true,
         },
-        img: {
+        imgPath: {
             type: String,
             default: 'https://source.unsplash.com/random/1254x836',
         },
