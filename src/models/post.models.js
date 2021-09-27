@@ -24,7 +24,7 @@ const postSchema = new Schema(
         },
         caption: {
             type: String,
-            max: 100,
+            maxlength: 100,
             default: 'No Caption',
         },
         comment: [

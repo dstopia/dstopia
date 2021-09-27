@@ -4,7 +4,7 @@ const Post = require('../models/post.models')
 const User = require('../models/user.models')
 
 exports.addPost = (req, res) => {
-
+    const { userId } = req.body
     const post = new Post(req.body)
 
     post.save((error, postResult) => {
@@ -23,7 +23,7 @@ exports.addPost = (req, res) => {
                     },
                 },
                 {},
-                (err, userResult) => {
+                (error, userResult) => {
                     if (error) {
                         console.log(error)
                         res.status(404).json(error)
@@ -50,13 +50,17 @@ exports.getPost = async (req, res) => {
 exports.updatePostCaption = (req, res, next) => {
     try {
         const { caption, id } = req.body
-        const query = Post.findByIdAndUpdate(id,{
-            $set:{
-                caption
+        const query = Post.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    caption,
+                },
+            },
+            {
+                new: true,
             }
-        },{
-            new:true
-        })
+        )
         res.json(query)
     } catch (error) {
         console.log(error)

@@ -5,12 +5,13 @@
     "scripts": {
         "start": "node ./bin/server.js",
         "dev": "set DEBUG=dev & nodemon ./bin/server.js",
-        "predev2":"set DEBUG=dev",
+        "predev2": "set DEBUG=dev",
         "dev2": "DEBUG=dev nodemon ./bin/server.js",
         "commit": "node ./src/utils/commit.js"
     },
     "dependencies": {
         "bcrypt": "^5.0.1",
+        "bcryptjs": "^2.4.3",
         "chalk": "^4.1.2",
         "cors": "^2.8.5",
         "debug": "^2.6.9",

@@ -8,10 +8,10 @@ const userSchema = new Schema(
     {
         username: {
             type: String,
-            required: 'Username is required',
+            required: [true, 'Username is required'],
             unique: true,
-            min: 4,
-            max: 20,
+            minlength: [4, 'Username must be more than 4 character'],
+            maxlength: [15, 'Username must be less than 15 character'],
             lowercase: true,
         },
         email: {
@@ -25,7 +25,7 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: 'Password is required',
-            min: 6,
+            minlength: 6,
         },
         gender: {
             type: String,

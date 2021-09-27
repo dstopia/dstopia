@@ -3,9 +3,10 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"gdfgfd",
-    "email":"dfgdf@gmail.com",
-    "password":"1234567"
+    "username":"weh",
+    "gender":"male",
+    "email":"daRnhdigmaiil.om",
+    "password":"67"
 }
 
 ###
@@ -26,7 +27,7 @@ Content-Type: application/json
 
 {
     "userId":"614ed91a9c95c28a27ce1dcd",
-    "username":"gdfgfd",
+    "username":"opoppo",
     "caption":"hai my dear love"
 }
 

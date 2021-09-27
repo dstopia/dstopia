@@ -20,7 +20,7 @@ const postCommentSchema = new Schema(
         },
         msg: {
             type: String,
-            max: 100,
+            maxlength: 100,
             default: 'No Message',
         },
         isLiked: {
