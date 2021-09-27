@@ -27,6 +27,10 @@ const userSchema = new Schema(
             required: 'Password is required',
             min: 6,
         },
+        gender: {
+            type: String,
+            default: 'male',
+        },
         desc: {
             type: String,
             default: 'No Description.',
