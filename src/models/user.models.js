@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const { isEmail } = require('validator')
+const { isEmail, isAlphanumeric } = require('validator')
 
 const userSchema = new Schema(
     {
@@ -13,6 +13,7 @@ const userSchema = new Schema(
             minlength: [4, 'Username must be more than 4 character'],
             maxlength: [15, 'Username must be less than 15 character'],
             lowercase: true,
+            validate: [isAlphanumeric, 'Username must not have any special character']
         },
         img_thumb: {
             type: String,

@@ -1,9 +1,9 @@
 'use strict'
 
-const User = require('../models/user.models')
 const debug = require('debug')('dev')
 const { isEmail, isAlphanumeric, isLength, isNumeric } = require('validator')
 const { genSalt, hash, compare } = require('bcryptjs')
+const User = require('../models/user.models')
 
 exports.getUsers = async (req, res) => {
     try {
@@ -16,7 +16,7 @@ exports.getUsers = async (req, res) => {
 }
 
 exports.addUser = async (req, res) => {
-    const { username, email, password, gender , confirm_password} = req.body
+    const { username, email, password, gender, confirm_password } = req.body
 
     const error = []
 
@@ -46,6 +46,7 @@ exports.addUser = async (req, res) => {
     // validate password
     let hashedPassword = ''
 
+    // cek confirm password
     password !== confirm_password && error.push('Confirm password not match')
 
     if (password.length < 6) {
@@ -67,6 +68,7 @@ exports.addUser = async (req, res) => {
     if (error.length > 0) {
         return res.status(422).json({ msg: 'Error not empty', error })
     }
+
     // initialize new user collection
     const user = new User({
         img,
@@ -79,6 +81,7 @@ exports.addUser = async (req, res) => {
     // save to database
     user.save()
         .then((data) => {
+            debug(data)
             res.json({ msg: 'New user added' })
         })
         .catch((error) => {
@@ -172,7 +175,10 @@ exports.checkUser = async (req, res) => {
 exports.getUserById = async (req, res) => {
     try {
         const { id } = req.params
-        const data = await User.findById(id, 'username email desc posts followers following img_thumb img_bg')
+        const data = await User.findById(
+            id,
+            'username email desc posts followers following img_thumb img_bg'
+        )
         res.json(data)
     } catch (error) {
         res.status(404).json({ msg: 'User not found', error })

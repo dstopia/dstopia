@@ -2,15 +2,16 @@
 
 const Post = require('../models/post.models')
 const User = require('../models/user.models')
+const debug = require('debug')('dev')
 
 exports.addPost = (req, res) => {
     const { userId, username, caption } = req.body
-    
-    const post = new Post(req.body)
+
+    const post = new Post({username, caption})
 
     post.save((error, postResult) => {
         if (error) {
-            console.log({ postError: error })
+            debug({ postError: error })
             res.status(404).json(error)
         } else {
             // push post id to user collection post array
@@ -26,10 +27,9 @@ exports.addPost = (req, res) => {
                 {},
                 (error, userResult) => {
                     if (error) {
-                        console.log(error)
                         res.status(404).json(error)
                     } else {
-                        console.log(userResult)
+                        debug(userResult)
                     }
                 }
             )
@@ -43,12 +43,11 @@ exports.getPost = async (req, res) => {
         const data = await Post.find()
         res.json(data)
     } catch (error) {
-        console.log(error)
         res.status(404).json(error)
     }
 }
 
-exports.updatePostCaption = (req, res, next) => {
+exports.updatePostCaption = (req, res) => {
     try {
         const { caption, id } = req.body
         const query = Post.findByIdAndUpdate(
@@ -64,18 +63,17 @@ exports.updatePostCaption = (req, res, next) => {
         )
         res.json(query)
     } catch (error) {
-        console.log(error)
+        debug(error)
         res.status(404).json(error)
     }
 }
 
-exports.removePost = (req, res, next) => {
+exports.removePost = (req, res) => {
     try {
         const { id } = req.body
         const query = Post.findByIdAndDelete(id)
         res.json(query)
     } catch (error) {
-        console.log(error)
         res.status(404).json(error)
     }
 }
