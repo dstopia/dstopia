@@ -4,7 +4,6 @@ const User = require('../models/user.models')
 const debug = require('debug')('dev')
 const { isEmail, isAlphanumeric, isLength, isNumeric } = require('validator')
 const { genSalt, hash, compare } = require('bcryptjs')
-const { rearg } = require('lodash')
 
 exports.getUsers = async (req, res) => {
     try {
@@ -80,7 +79,7 @@ exports.addUser = async (req, res) => {
     // save to database
     user.save()
         .then((data) => {
-            res.json({ msg: 'New User Added' })
+            res.json({ msg: 'New user added' })
         })
         .catch((error) => {
             res.status(422).json({ msg: 'Failed to add new user', error })
