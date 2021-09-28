@@ -9,6 +9,7 @@ const {
     removeUser,
     getUserWithPost,
     checkUser,
+    getUserById,
 } = require('../controllers/user.controllers')
 
 // get user with post
@@ -16,6 +17,9 @@ router.get('/post', getUserWithPost)
 
 // user login
 router.post('/login', checkUser)
+
+// get user by id
+router.get('/:id', getUserById)
 
 // get user
 router.get('/', getUsers)

@@ -14,6 +14,14 @@ const userSchema = new Schema(
             maxlength: [15, 'Username must be less than 15 character'],
             lowercase: true,
         },
+        img_thumb: {
+            type: String,
+            default: 'https://source.unsplash.com/random/128x128',
+        },
+        img_bg: {
+            type: String,
+            default: 'https://source.unsplash.com/random/400x200',
+        },
         email: {
             type: String,
             trim: true,
@@ -35,7 +43,19 @@ const userSchema = new Schema(
             type: String,
             default: 'No Description.',
         },
-        post: [
+        followers: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            },
+        ],
+        following: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+            },
+        ],
+        posts: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Post',

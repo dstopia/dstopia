@@ -17,7 +17,7 @@ exports.getUsers = async (req, res) => {
 }
 
 exports.addUser = async (req, res) => {
-    const { username, email, password, gender } = req.body
+    const { username, email, password, gender , confirm_password} = req.body
 
     const error = []
 
@@ -46,6 +46,8 @@ exports.addUser = async (req, res) => {
 
     // validate password
     let hashedPassword = ''
+
+    password !== confirm_password && error.push('Confirm password not match')
 
     if (password.length < 6) {
         error.push('Password must be more than 6 characters')
@@ -164,6 +166,16 @@ exports.checkUser = async (req, res) => {
     if (isValid) {
         return res.json({ id: userId })
     } else {
-         return res.status(403).json({ msg: 'Incorrect password' })
+        return res.status(403).json({ msg: 'Incorrect password' })
+    }
+}
+
+exports.getUserById = async (req, res) => {
+    try {
+        const { id } = req.params
+        const data = await User.findById(id, 'username email desc posts followers following img_thumb img_bg')
+        res.json(data)
+    } catch (error) {
+        res.status(404).json({ msg: 'User not found', error })
     }
 }

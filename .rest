@@ -15,6 +15,11 @@ Content-Type: application/json
 GET http://localhost:3003/user
 
 ###
+
+// Menampilkan user BY ID
+GET http://localhost:3003/user/614ed4348786e861772204b3
+
+###
 POST http://localhost:3003/user/login
 Content-Type: application/json
 
