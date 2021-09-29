@@ -143,30 +143,36 @@ exports.checkUser = async (req, res) => {
     const { username, password } = req.body
 
     let passToCheck = ''
-    let userId = ''
+    let userId = {}
 
     if (isEmail(username)) {
         // get user password by email
-        const user = await User.findOne({ email: username }, 'password')
+        const user = await User.findOne(
+            { email: username },
+            'username password email desc posts followers following img_thumb img_bg'
+        )
         if (!user) {
             return res.status(404).json({ msg: 'Email not found' })
         } else {
             passToCheck = user.password
-            userId = user._id
+            userId = user
         }
     } else {
         // get user password by username
-        const user = await User.findOne({ username: username }, 'password')
+        const user = await User.findOne(
+            { username: username },
+            'username email desc posts password followers following img_thumb img_bg'
+        )
         if (!user) {
             return res.status(404).json({ msg: 'Username not found' })
         } else {
             passToCheck = user.password
-            userId = user._id
+            userId = user
         }
     }
     const isValid = await compare(password, passToCheck)
     if (isValid) {
-        return res.json({ id: userId })
+        return res.json(userId)
     } else {
         return res.status(403).json({ msg: 'Incorrect password' })
     }
