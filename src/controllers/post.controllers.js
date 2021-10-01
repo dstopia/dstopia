@@ -7,12 +7,12 @@ const debug = require('debug')('dev')
 exports.addPost = (req, res) => {
     const { userId, username, caption } = req.body
 
-    const post = new Post({username, caption})
+    const post = new Post({ username, caption })
 
     post.save((error, postResult) => {
         if (error) {
             debug({ postError: error })
-            res.status(404).json(error)
+            return res.status(404).json(error)
         } else {
             // push post id to user collection post array
             User.findByIdAndUpdate(
@@ -27,7 +27,7 @@ exports.addPost = (req, res) => {
                 {},
                 (error, userResult) => {
                     if (error) {
-                        res.status(404).json(error)
+                        debug(error)
                     } else {
                         debug(userResult)
                     }
@@ -40,7 +40,7 @@ exports.addPost = (req, res) => {
 
 exports.getPost = async (req, res) => {
     try {
-        const data = await Post.find()
+        const data = await Post.find().sort({ createdAt: 1 })
         res.json(data)
     } catch (error) {
         res.status(404).json(error)
