@@ -9,7 +9,7 @@ const userSchema = new Schema(
         username: {
             type: String,
             required: [true, 'Username is required'],
-            unique: true,
+            unique: [true, 'User is already use'],
             minlength: [4, 'Username must be more than 4 character'],
             maxlength: [15, 'Username must be less than 15 character'],
             lowercase: true,
@@ -27,14 +27,14 @@ const userSchema = new Schema(
             type: String,
             trim: true,
             lowercase: true,
-            unique: true,
-            required: 'Email address is required',
+            unique: [true, 'Email address is already use'],
+            required: [true, 'Email address is required'],
             validate: [isEmail, 'Please fill a valid email address'],
         },
         password: {
             type: String,
-            required: 'Password is required',
-            minlength: 6,
+            required: [true,'Password is required'],
+            minlength: [6, 'Password must be 6 character or more'],
         },
         gender: {
             type: String,

@@ -5,9 +5,13 @@ const User = require('../models/user.models')
 const debug = require('debug')('dev')
 
 exports.addPost = (req, res) => {
-    const { userId, username, caption } = req.body
-
-    const post = new Post({username, caption})
+    const { userId, caption } = req.body
+    
+    if(caption.length > 100){
+        return res.json( {err: 'Caption must be less than 100 character'} )
+    }
+    
+    const post = new Post({ user:userId, caption})
 
     post.save((error, postResult) => {
         if (error) {
