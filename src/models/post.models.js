@@ -6,11 +6,11 @@ const moment = require('moment')
 
 const postSchema = new Schema(
     {
-        username: {
-            type: String,
-            required: true,
+        user: {
+            type: Schema.Types.ObjectId,
+            ref:'User',
         },
-        imgPath: {
+        img_post: {
             type: String,
             default: 'https://source.unsplash.com/random/1254x836',
         },
@@ -24,7 +24,7 @@ const postSchema = new Schema(
         },
         caption: {
             type: String,
-            maxlength: 100,
+            maxlength: [100,'Caption must be less than 100 characters'],
             default: 'No Caption',
         },
         comment: [

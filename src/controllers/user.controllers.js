@@ -43,10 +43,10 @@ exports.addUser = async (req, res) => {
     const emailExist = await User.findOne({ email })
     emailExist && error.push('Email already exist!')
 
-    // validate password
+    // cek confirm password
     let hashedPassword = ''
 
-    // cek confirm password
+    // validate password
     password !== confirm_password && error.push('Confirm password not match')
 
     if (password.length < 6) {

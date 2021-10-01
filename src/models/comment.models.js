@@ -6,13 +6,9 @@ const moment = require('moment')
 
 const postCommentSchema = new Schema(
     {
-        username: {
-            type: String,
-            default: 'SomeOne',
-        },
-        img: {
-            type: String,
-            default: 'https://source.unsplash.com/random/128x128',
+        sender: {
+            type: Schema.Type.ObjectId,
+            ref: 'User',
         },
         timeSend: {
             type: String,
@@ -20,7 +16,7 @@ const postCommentSchema = new Schema(
         },
         msg: {
             type: String,
-            maxlength: 100,
+            maxlength: [100,'Message must be less than 100 character'],
             default: 'No Message',
         },
         isLiked: {
