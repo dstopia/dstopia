@@ -160,7 +160,7 @@ exports.checkUser = async (req, res) => {
     } else {
         // get user password by username
         const user = await User.findOne(
-            { username: username },
+            { username },
             'username email desc posts password followers following img_thumb img_bg'
         )
         if (!user) {
