@@ -8,23 +8,11 @@
     
     cd dstopia
     ```
-2. Install dependencies
+2. Install all dependencies
     ```
     npm install
     ```
-3. Run server using nodemon
+3. Run server in development
     ```
     npm run dev
     ```
-
-### Router list
-
-1.  /user
-
-    -   GET : get all users
-    -   POST : add new user
-        > body :
-        >
-        > -   username : min 4, max 20, lowercase, required
-        > -   email : required
-        > -   password : min 6, required
