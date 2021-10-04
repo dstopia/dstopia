@@ -3,10 +3,11 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"kampung",
-    "gender":"male",
-    "email":"daRrtynhdi@gmaiil.om",
-    "password":"67werewrewr"
+    "username":"dewi",
+    "gender":"femsle",
+    "email":"dewi@gmaiil.om",
+    "password":"123456",
+    "confirm_password":"123456"
 }
 
 ###
@@ -39,10 +40,8 @@ POST http://localhost:3003/post
 Content-Type: application/json
 
 {
-    "userId":"614ed91a9c95c28a27ce1dcd",
-    "imgPath":"https://source.unsplash.com/random/1254x836",
-    "username":"opoppo",
-    "caption":"hai my dear love"
+    "userId":"615a74137db6fd96d217ec07",
+    "caption":"Hai nama saya dewi"
 }
 
 ###

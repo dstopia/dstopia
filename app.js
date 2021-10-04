@@ -4,13 +4,31 @@ const createError = require('http-errors')
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const session = require('express-session')
 
 const app = express()
 
-app.use(cors())
-app.use(cookieParser())
 app.use(express.json())
+app.use(
+    cors({
+        origin: ['http://localhost:3000'],
+        methods: ['GET', 'POST'],
+        credentials: true,
+    })
+)
+app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
+app.use(
+    session({
+        key: 'userId',
+        secret: 'cookie secret',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 60 * 60 * 24,
+        },
+    })
+)
 
 // database connections
 require('./src/config/mongodb')

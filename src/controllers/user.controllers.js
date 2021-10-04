@@ -3,6 +3,9 @@
 const debug = require('debug')('dev')
 const { isEmail, isAlphanumeric, isLength, isNumeric } = require('validator')
 const { genSalt, hash, compare } = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+// user models
 const User = require('../models/user.models')
 
 exports.getUsers = async (req, res) => {
@@ -15,6 +18,13 @@ exports.getUsers = async (req, res) => {
     }
 }
 
+// create jwt token
+const createToken = (id) =>
+    jwt.sign({ id }, 'secret jwt token', { expiresIn: 24 * 60 * 60 })
+
+/**
+ * When user signup start
+ */
 exports.addUser = async (req, res) => {
     const { username, email, password, gender, confirm_password } = req.body
 
@@ -80,14 +90,92 @@ exports.addUser = async (req, res) => {
 
     // save to database
     user.save()
-        .then((data) => {
-            debug(data)
+        .then((user) => {
+            // All validation done and new user added
+            debug(user)
+
+            // create cookie with jwt token
+            const token = createToken(user._id)
+            res.cookie('jwt', token, { maxAge: 24 * 60 * 60, httpOnly: true })
+
+            // set current usen in session
+            req.session.user = user
             res.json({ msg: 'New user added' })
         })
         .catch((error) => {
             res.status(422).json({ msg: 'Failed to add new user', error })
         })
 }
+
+/** When user signup end */
+
+/**
+ * when user login
+ */
+exports.checkUser = async (req, res) => {
+    const { username, password } = req.body
+
+    let passToCheck = ''
+    let currentUser = {}
+
+    if (isEmail(username)) {
+        // get user password by email
+        const user = await User.findOne(
+            { email: username },
+            'username password email desc posts followers following img_thumb img_bg'
+        )
+        if (!user) {
+            return res.status(404).json({ msg: 'Email not found' })
+        } else {
+            passToCheck = user.password
+            currentUser = user
+        }
+    } else {
+        // get user password by username
+        const user = await User.findOne(
+            { username },
+            'username email desc posts password followers following img_thumb img_bg'
+        )
+        if (!user) {
+            return res.status(404).json({ msg: 'Username not found' })
+        } else {
+            passToCheck = user.password
+            currentUser = user
+        }
+    }
+    const isValid = await compare(password, passToCheck)
+    if (isValid) {
+        // create cookie with jwt token
+        const token = createToken(currentUser._id)
+        debug(token)
+
+        res.cookie('jwt', token, { maxAge: 24 * 60 * 60, httpOnly: true })
+
+        // create user session
+        req.session.user = currentUser
+
+        debug(req.session.user)
+        return res.json(currentUser)
+    } else {
+        return res.status(403).json({ msg: 'Incorrect password' })
+    }
+}
+
+/** Cek if user already logged in */
+exports.isLoggedIn = (req, res) => {
+    if (req.session.user) {
+        if (req.cookies) {
+            console.log(req.cookies)
+        } else {
+            console.log('no cookies')
+        }
+        res.json({ loggedIn: true, user: req.session.user })
+    } else {
+        res.json({ loggedIn: false })
+    }
+}
+
+/** When user login end */
 
 exports.updateUserData = async (req, res) => {
     try {
@@ -113,8 +201,8 @@ exports.updateUserData = async (req, res) => {
             default:
                 query = {}
         }
-        const dataQuery = User.findByIdAndUpdate(id, query, { new: true })
-        res.json({ msg: 'Update Success', dataQuery })
+        const user = User.findByIdAndUpdate(id, query, { new: true })
+        res.json({ msg: 'Update Success', user })
     } catch (error) {
         res.status(404).json({ msg: 'Failed to update user', error })
     }
@@ -123,8 +211,8 @@ exports.updateUserData = async (req, res) => {
 exports.removeUser = async (req, res) => {
     const { id } = req.body
     try {
-        const deleted = await User.findByIdAndDelete(id)
-        res.json({ msg: 'User Deleted', deleted })
+        const user = await User.findByIdAndDelete(id)
+        res.json({ msg: 'User user', user })
     } catch (error) {
         res.status(404).json({ msg: 'Failed to delete user', error })
     }
@@ -135,57 +223,18 @@ exports.getUserWithPost = async (req, res) => {
         const user = await User.find().populate('post')
         res.json(user)
     } catch (error) {
-        res.status(404).json(error)
-    }
-}
-
-exports.checkUser = async (req, res) => {
-    const { username, password } = req.body
-
-    let passToCheck = ''
-    let userId = {}
-
-    if (isEmail(username)) {
-        // get user password by email
-        const user = await User.findOne(
-            { email: username },
-            'username password email desc posts followers following img_thumb img_bg'
-        )
-        if (!user) {
-            return res.status(404).json({ msg: 'Email not found' })
-        } else {
-            passToCheck = user.password
-            userId = user
-        }
-    } else {
-        // get user password by username
-        const user = await User.findOne(
-            { username },
-            'username email desc posts password followers following img_thumb img_bg'
-        )
-        if (!user) {
-            return res.status(404).json({ msg: 'Username not found' })
-        } else {
-            passToCheck = user.password
-            userId = user
-        }
-    }
-    const isValid = await compare(password, passToCheck)
-    if (isValid) {
-        return res.json(userId)
-    } else {
-        return res.status(403).json({ msg: 'Incorrect password' })
+        res.status(404).json({ error: error.message })
     }
 }
 
 exports.getUserById = async (req, res) => {
     try {
         const { id } = req.params
-        const data = await User.findById(
+        const user = await User.findById(
             id,
             'username email desc posts followers following img_thumb img_bg'
         )
-        res.json(data)
+        res.json(user)
     } catch (error) {
         res.status(404).json({ msg: 'User not found', error })
     }

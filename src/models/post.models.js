@@ -3,12 +3,15 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const moment = require('moment')
+const debug = require('debug')('dev')
+const User = require('./user.models')
 
 const postSchema = new Schema(
     {
         user: {
             type: Schema.Types.ObjectId,
-            ref:'User',
+            ref: 'User',
+            required: true,
         },
         img_post: {
             type: String,
@@ -24,8 +27,9 @@ const postSchema = new Schema(
         },
         caption: {
             type: String,
-            maxlength: [100,'Caption must be less than 100 characters'],
+            maxlength: [100, 'Caption must be less than 100 characters'],
             default: 'No Caption',
+            required: true,
         },
         comment: [
             {
@@ -38,6 +42,18 @@ const postSchema = new Schema(
         timestamps: true,
     }
 )
+
+postSchema.methods.addToUserPost = function (userId) {
+    // push post id to user collection post array
+    return User.findByIdAndUpdate(
+        { _id: userId },
+        {
+            $push: {
+                post: this._id,
+            },
+        }
+    )
+}
 
 const Post = mongoose.model('Post', postSchema)
 

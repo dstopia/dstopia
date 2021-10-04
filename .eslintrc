@@ -10,9 +10,9 @@
         "ecmaVersion": 12
     },
     "rules": {
-        "no-console": "error",
+        "no-console": "warn",
         "strict": "error",
         "semi": "off",
-        "quotes": ["error", "single"]
+        "quotes": ["warn", "single"]
     }
 }

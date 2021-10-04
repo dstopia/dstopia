@@ -1,43 +1,31 @@
 'use strict'
 
 const Post = require('../models/post.models')
-const User = require('../models/user.models')
 const debug = require('debug')('dev')
 
 exports.addPost = (req, res) => {
     const { userId, caption } = req.body
-    
-    if(caption.length > 100){
-        return res.json( {err: 'Caption must be less than 100 character'} )
-    }
-    
-    const post = new Post({ user:userId, caption})
 
-    post.save((error, postResult) => {
+    if (caption.length > 100) {
+        return res.json({ err: 'Caption must be less than 100 character' })
+    }
+
+    const post = new Post({ user: userId, caption })
+
+    post.save(async (error, postResult) => {
         if (error) {
             debug({ postError: error })
             return res.status(404).json(error)
         } else {
-            // push post id to user collection post array
-            User.findByIdAndUpdate(
-                { _id: userId },
-                {
-                    $push: {
-                        post: {
-                            _id: postResult._id,
-                        },
-                    },
-                },
-                {},
-                (error, userResult) => {
-                    if (error) {
-                        debug(error)
-                    } else {
-                        debug(userResult)
-                    }
-                }
-            )
-            res.json(postResult)
+            const savePost = await post.addToUserPost(userId)
+            debug(savePost)
+            if (savePost) {
+                return res.json(postResult)
+            } else {
+                return res
+                    .status(400)
+                    .json({ msg: 'Failed add post to user post' })
+            }
         }
     })
 }
