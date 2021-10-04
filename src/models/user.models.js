@@ -8,12 +8,15 @@ const userSchema = new Schema(
     {
         username: {
             type: String,
-            required: [true, 'Username is required'],
-            unique: [true, 'User is already use'],
-            minlength: [4, 'Username must be more than 4 character'],
-            maxlength: [15, 'Username must be less than 15 character'],
+            required: [true, 'username is required'],
+            unique: [true, 'user is already use'],
+            minlength: [4, 'username must be more than 4 character'],
+            maxlength: [15, 'username must be less than 15 character'],
             lowercase: true,
-            validate: [isAlphanumeric, 'Username must not have any special character']
+            validate: [
+                isAlphanumeric,
+                'username must not have any special character',
+            ],
         },
         img_thumb: {
             type: String,
@@ -27,14 +30,14 @@ const userSchema = new Schema(
             type: String,
             trim: true,
             lowercase: true,
-            unique: [true, 'Email address is already use'],
-            required: [true, 'Email address is required'],
-            validate: [isEmail, 'Please fill a valid email address'],
+            unique: [true, 'email address is already use'],
+            required: [true, 'email address is required'],
+            validate: [isEmail, 'please fill a valid email address'],
         },
         password: {
             type: String,
-            required: [true,'Password is required'],
-            minlength: [6, 'Password must be 6 character or more'],
+            required: [true, 'password is required'],
+            minlength: [6, 'password must be 6 character or more'],
         },
         gender: {
             type: String,
@@ -42,7 +45,7 @@ const userSchema = new Schema(
         },
         desc: {
             type: String,
-            default: 'No Description.',
+            default: 'no description',
         },
         followers: [
             {

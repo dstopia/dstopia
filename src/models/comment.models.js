@@ -16,7 +16,7 @@ const postCommentSchema = new Schema(
         },
         msg: {
             type: String,
-            maxlength: [100,'Message must be less than 100 character'],
+            maxlength: [100,'message must be less than 100 character'],
             default: 'No Message',
         },
         isLiked: {

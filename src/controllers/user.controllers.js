@@ -8,13 +8,13 @@ const jwt = require('jsonwebtoken')
 // user models
 const User = require('../models/user.models')
 
+// get all user in database
 exports.getUsers = async (req, res) => {
     try {
         const user = await User.find({}, '_id username email gender desc')
-        debug(user)
         res.json(user)
     } catch (error) {
-        res.status(404).json({ msg: 'Database error, User not found!', error })
+        res.status(404).json({ error: error.message })
     }
 }
 
@@ -22,52 +22,66 @@ exports.getUsers = async (req, res) => {
 const createToken = (id) =>
     jwt.sign({ id }, 'secret jwt token', { expiresIn: 24 * 60 * 60 })
 
-/**
- * When user signup start
- */
+// signup handler
 exports.addUser = async (req, res) => {
     const { username, email, password, gender, confirm_password } = req.body
 
     const error = []
 
-    // validate username
-    username === undefined
-        ? error.push('Username Required')
-        : !isLength(username, { min: 4, max: 15 })
-        ? error.push('Username must be more than 4 and less than 15 character')
+    /** validate username */
+
+    // cek if username exists
+    if (!username) {
+        return res.status(422).json({ error: ['username required'] })
+    }
+
+    //cek if username valid
+    !isLength(username, { min: 4, max: 15 })
+        ? error.push('username must be more than 4 and less than 15 character')
         : isNumeric(username)
-        ? error.push('Username must contain alphabet')
+        ? error.push('username must contain alphabet')
         : !isAlphanumeric(username) &&
-          error.push('Username must not contain any special characters')
+          error.push('username must not contain any special characters')
 
     // cek if username is already exist
     const userExist = await User.findOne({ username })
-    userExist && error.push('User already exist')
+    userExist && error.push('user already exist')
 
-    // validate email
-    email === undefined
-        ? error.push('Email required')
-        : !isEmail(email) && error.push('Email not valid')
+    /** validate email */
+
+    // cek if email exists
+    if (!email) {
+        return res.status(422).json({ error: ['email required'] })
+    }
+    // cek if email valid
+    !isEmail(email) && error.push('email not valid')
 
     // cek if email is already exist
     const emailExist = await User.findOne({ email })
-    emailExist && error.push('Email already exist!')
+    emailExist && error.push('email already exist')
+
+    /**  validate password */
+
+    // cek if password exists
+    if (!password) {
+        return res.status(422).json({ error: ['password required'] })
+    }
 
     // cek confirm password
+    password !== confirm_password && error.push('confirm password not match')
+
     let hashedPassword = ''
 
-    // validate password
-    password !== confirm_password && error.push('Confirm password not match')
-
+    // cek password length
     if (password.length < 6) {
-        error.push('Password must be more than 6 characters')
+        error.push('password must be more than 6 characters')
     } else {
         // hash password
         try {
             const salt = await genSalt()
             hashedPassword = await hash(password, salt)
         } catch (error) {
-            res.status(422).json({ msg: 'Failed to hash password.', error })
+            res.status(422).json({ error: error.message })
         }
     }
 
@@ -76,7 +90,7 @@ exports.addUser = async (req, res) => {
     gender === 'male' ? (img = '/male.png') : (img = '/female.png')
 
     if (error.length > 0) {
-        return res.status(422).json({ msg: 'Error not empty', error })
+        return res.status(422).json({ error })
     }
 
     // initialize new user collection
@@ -100,10 +114,10 @@ exports.addUser = async (req, res) => {
 
             // set current usen in session
             req.session.user = user
-            res.json({ msg: 'New user added' })
+            res.json({ message: 'new user added' })
         })
         .catch((error) => {
-            res.status(422).json({ msg: 'Failed to add new user', error })
+            res.status(422).json({ error: error.message })
         })
 }
 
@@ -125,7 +139,7 @@ exports.checkUser = async (req, res) => {
             'username password email desc posts followers following img_thumb img_bg'
         )
         if (!user) {
-            return res.status(404).json({ msg: 'Email not found' })
+            return res.status(404).json({ error: 'email not found' })
         } else {
             passToCheck = user.password
             currentUser = user
@@ -137,7 +151,7 @@ exports.checkUser = async (req, res) => {
             'username email desc posts password followers following img_thumb img_bg'
         )
         if (!user) {
-            return res.status(404).json({ msg: 'Username not found' })
+            return res.status(404).json({ error: 'username not found' })
         } else {
             passToCheck = user.password
             currentUser = user
@@ -157,7 +171,7 @@ exports.checkUser = async (req, res) => {
         debug(req.session.user)
         return res.json(currentUser)
     } else {
-        return res.status(403).json({ msg: 'Incorrect password' })
+        return res.status(403).json({ error: 'incorrect password' })
     }
 }
 
@@ -165,9 +179,9 @@ exports.checkUser = async (req, res) => {
 exports.isLoggedIn = (req, res) => {
     if (req.session.user) {
         if (req.cookies) {
-            console.log(req.cookies)
+            debug(req.cookies)
         } else {
-            console.log('no cookies')
+            debug('no cookies')
         }
         res.json({ loggedIn: true, user: req.session.user })
     } else {
@@ -202,9 +216,9 @@ exports.updateUserData = async (req, res) => {
                 query = {}
         }
         const user = User.findByIdAndUpdate(id, query, { new: true })
-        res.json({ msg: 'Update Success', user })
+        res.json({ message: 'update Success', user })
     } catch (error) {
-        res.status(404).json({ msg: 'Failed to update user', error })
+        res.status(404).json({ error: error.message })
     }
 }
 
@@ -212,9 +226,9 @@ exports.removeUser = async (req, res) => {
     const { id } = req.body
     try {
         const user = await User.findByIdAndDelete(id)
-        res.json({ msg: 'User user', user })
+        res.json({ message: 'user removed', user })
     } catch (error) {
-        res.status(404).json({ msg: 'Failed to delete user', error })
+        res.status(404).json({ error: error.message })
     }
 }
 
@@ -236,6 +250,6 @@ exports.getUserById = async (req, res) => {
         )
         res.json(user)
     } catch (error) {
-        res.status(404).json({ msg: 'User not found', error })
+        res.status(404).json({ error: error.message })
     }
 }

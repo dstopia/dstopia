@@ -3,28 +3,31 @@
 const Post = require('../models/post.models')
 const debug = require('debug')('dev')
 
+// create new post
 exports.addPost = (req, res) => {
     const { userId, caption } = req.body
 
+    // cek caption length
     if (caption.length > 100) {
-        return res.json({ err: 'Caption must be less than 100 character' })
+        return res.json({ error: 'caption must be less than 100 character' })
     }
 
+    // create new post model
     const post = new Post({ user: userId, caption })
 
-    post.save(async (error, postResult) => {
+    // save new post
+    post.save(async (error, result) => {
         if (error) {
-            debug({ postError: error })
-            return res.status(404).json(error)
+            return res.status(404).json({ error: error.message })
         } else {
+            // save post id to user post array
             const savePost = await post.addToUserPost(userId)
-            debug(savePost)
             if (savePost) {
-                return res.json(postResult)
+                return res.json(result)
             } else {
                 return res
                     .status(400)
-                    .json({ msg: 'Failed add post to user post' })
+                    .json({ error: 'failed add post to user post' })
             }
         }
     })
@@ -32,10 +35,10 @@ exports.addPost = (req, res) => {
 
 exports.getPost = async (req, res) => {
     try {
-        const data = await Post.find().sort({ createdAt: 1 })
+        const data = await Post.find()
         res.json(data)
     } catch (error) {
-        res.status(404).json(error)
+        res.status(404).json({ error: error.message })
     }
 }
 
@@ -56,7 +59,7 @@ exports.updatePostCaption = (req, res) => {
         res.json(query)
     } catch (error) {
         debug(error)
-        res.status(404).json(error)
+        res.status(404).json({ error: error.message })
     }
 }
 
@@ -66,6 +69,6 @@ exports.removePost = (req, res) => {
         const query = Post.findByIdAndDelete(id)
         res.json(query)
     } catch (error) {
-        res.status(404).json(error)
+        res.status(404).json({ error: error.message })
     }
 }
