@@ -35,7 +35,7 @@ exports.addPost = (req, res) => {
 
 exports.getPost = async (req, res) => {
     try {
-        const data = await Post.find()
+        const data = await Post.find().populate('user','username')
         res.json(data)
     } catch (error) {
         res.status(404).json({ error: error.message })

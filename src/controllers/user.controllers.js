@@ -136,7 +136,7 @@ exports.checkUser = async (req, res) => {
         // get user password by email
         const user = await User.findOne(
             { email: username },
-            'username password email desc posts followers following img_thumb img_bg'
+            'username password email desc post followers following img_thumb img_bg'
         )
         if (!user) {
             return res.status(404).json({ error: 'email not found' })
@@ -148,7 +148,7 @@ exports.checkUser = async (req, res) => {
         // get user password by username
         const user = await User.findOne(
             { username },
-            'username email desc posts password followers following img_thumb img_bg'
+            'username email desc post password followers following img_thumb img_bg'
         )
         if (!user) {
             return res.status(404).json({ error: 'username not found' })
@@ -246,7 +246,7 @@ exports.getUserById = async (req, res) => {
         const { id } = req.params
         const user = await User.findById(
             id,
-            'username email desc posts followers following img_thumb img_bg'
+            'username email desc post followers following img_thumb img_bg'
         )
         res.json(user)
     } catch (error) {
