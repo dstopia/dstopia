@@ -11,7 +11,10 @@ const User = require('../models/user.models')
 // get all user in database
 exports.getUsers = async (req, res) => {
     try {
-        const user = await User.find({}, '_id username email gender desc')
+        const user = await User.find(
+            {},
+            '_id username email gender desc followers following'
+        )
         res.json(user)
     } catch (error) {
         res.status(404).json({ error: error.message })
@@ -251,5 +254,60 @@ exports.getUserById = async (req, res) => {
         res.json(user)
     } catch (error) {
         res.status(404).json({ error: error.message })
+    }
+}
+
+// follower and following
+
+exports.follow = async (req, res) => {
+    try {
+        // selanjutnya, userId akan diganti dengan id user yang sedang login
+        const { followId, userId } = req.body
+        await User.findByIdAndUpdate(
+            followId,
+            {
+                // pake addToSet biar id yang sama tidak masuk
+                $addToSet: { followers: userId },
+            },
+            { new: true }
+        )
+        await User.findByIdAndUpdate(
+            userId,
+            {
+                $addToSet: { following: followId },
+            },
+            { new: true }
+        )
+
+        res.json({ message: 'Success following' })
+    } catch (error) {
+        res.status(404).json({ error: 'Fail to following' })
+    }
+}
+
+// unfollow
+
+exports.unFollow = async (req, res) => {
+    try {
+        // selanjutnya, userId akan diganti dengan id user yang sedang login
+        const { unfollowId, userId } = req.body
+        await User.findByIdAndUpdate(
+            unfollowId,
+            {
+                $pull: { followers: userId },
+            },
+            { new: true }
+        )
+        await User.findByIdAndUpdate(
+            userId,
+            {
+                $pull: { following: unfollowId },
+            },
+            { new: true }
+        )
+
+        res.json({ message: 'Success unfollow' })
+    } catch (error) {
+        res.status(404).json({ error: 'Fail unfollow' })
     }
 }
