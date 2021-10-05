@@ -1,4 +1,4 @@
-## Dstopia Blog👋
+# Dstopia Blog👋
 
 ### Run local development
 
@@ -12,7 +12,8 @@
     ```
     npm install
     ```
-3. Run server in development
+3. Copy file `.env.example` and rename into `.env`
+4. Run server in development
     ```
     npm run dev
     ```
