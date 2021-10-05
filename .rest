@@ -3,9 +3,9 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"dsdgi",
-    "gender":"femsle",
-    "email":"drsg@erw.com",
+    "username":"naruto",
+    "gender":"female",
+    "email":"naruto@gmail.com",
     "password":"123456",
     "confirm_password":"123456"
 }
@@ -18,7 +18,7 @@ GET http://localhost:3003/user
 ###
 
 // Menampilkan user BY ID
-GET http://localhost:3003/user/615a74137db6fd96d217ec07
+GET http://localhost:3003/user/615c9ada01f35e107b009ef9
 
 ###
 // Test login
@@ -26,8 +26,8 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-    "username":"kampung",
-    "password":"67werewrewr"
+    "username":"naruto",
+    "password":"123456"
 }
 ###
 
@@ -44,8 +44,8 @@ Content-Type: application/json
 {
     // user yang akan difollow (alexander)
     "followId":"614ed4348786e861772204b3",
-    // user yang akan memfollow (bellar)
-    "userId": "614ed7f3ee564732476899df"
+    // user yang akan memfollow (naruto)
+    "userId": "615c9ada01f35e107b009ef9"
 }
 
 ###
@@ -55,11 +55,15 @@ Content-Type: application/json
 
 // ceritanya si bellar ingin tidak lagi mengikuti si alexander
 {
-    // user yang akan difollow (alexander)
+    // user yang akan diunfollow (alexander)
     "unfollowId":"614ed4348786e861772204b3",
-    // user yang akan memfollow (bellar)
-    "userId": "614ed7f3ee564732476899df"
+    // user yang akan mengunfollow (bellar)
+    "userId": "615c9ada01f35e107b009ef9"
 }
+
+###
+// Menampilkan followers dan following user
+GET http://localhost:3003/user/follow-status
 
 
 ###
@@ -69,8 +73,8 @@ POST http://localhost:3003/post
 Content-Type: application/json
 
 {
-    "userId":"615a74137db6fd96d217ec07",
-    "caption":"Hai nama saya dewi"
+    "userId":"615c9ada01f35e107b009ef9",
+    "caption":"Hai nama saya naruto"
 }
 
 ###
