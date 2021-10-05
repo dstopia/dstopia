@@ -36,6 +36,34 @@ GET http://localhost:3003/user/post
 
 ###
 
+// follow
+PUT http://localhost:3003/user/follow
+Content-Type: application/json
+
+// ceritanya si bellar ingin mengikuti si alexander
+{
+    // user yang akan difollow (alexander)
+    "followId":"614ed4348786e861772204b3",
+    // user yang akan memfollow (bellar)
+    "userId": "614ed7f3ee564732476899df"
+}
+
+###
+// unfollow
+PUT http://localhost:3003/user/unfollow
+Content-Type: application/json
+
+// ceritanya si bellar ingin tidak lagi mengikuti si alexander
+{
+    // user yang akan difollow (alexander)
+    "unfollowId":"614ed4348786e861772204b3",
+    // user yang akan memfollow (bellar)
+    "userId": "614ed7f3ee564732476899df"
+}
+
+
+###
+
 // Menambah postingan baru
 POST http://localhost:3003/post
 Content-Type: application/json

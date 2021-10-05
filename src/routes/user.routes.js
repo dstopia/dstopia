@@ -10,7 +10,9 @@ const {
     getUserWithPost,
     checkUser,
     getUserById,
-    isLoggedIn
+    isLoggedIn,
+    follow,
+    unFollow,
 } = require('../controllers/user.controllers')
 
 // get user with post
@@ -36,5 +38,11 @@ router.put('/', updateUserData)
 
 // delete user
 router.delete('/', removeUser)
+
+// follow
+router.put('/follow', follow)
+
+// unfollow
+router.put('/unfollow', unFollow)
 
 module.exports = router
