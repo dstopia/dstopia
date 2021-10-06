@@ -11,6 +11,9 @@ const {
 } = require('../controllers/post.controllers')
 
 
+// delete post
+router.get('/del/:id', removePost)
+
 // get post
 router.get('/', getPost)
 
@@ -20,7 +23,5 @@ router.post('/', addPost)
 // update post
 router.put('/', updatePostCaption)
 
-// delete post
-router.delete('/', removePost)
 
 module.exports = router

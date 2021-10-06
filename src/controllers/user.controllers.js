@@ -13,7 +13,7 @@ exports.getUsers = async (req, res) => {
     try {
         const user = await User.find(
             {},
-            '_id username email gender desc followers following'
+            '_id username email gender desc followers following post img_thumb'
         )
         res.json(user)
     } catch (error) {
@@ -284,18 +284,14 @@ exports.updateUserData = async (req, res) => {
     }
 }
 
+// remove user
 exports.removeUser = async (req, res) => {
-    const { id } = req.body
     try {
+        const { id } = req.params
         const user = await User.findByIdAndDelete(id)
-        res.json({
-            message: 'user removed',
-            user,
-        })
+        res.json({message:`user with id=${user._id} and username=${user.username} has been deleted`})
     } catch (error) {
-        res.status(404).json({
-            error: error.message,
-        })
+        res.status(404).json({ error: error.message })
     }
 }
 
@@ -382,11 +378,11 @@ exports.unFollow = async (req, res) => {
 
 exports.followStatus = async (req, res) => {
     try {
-       const user = await User.find(
-           {},
-           '_id username followers following'
-       ).populate('followers following','username')
-       res.json(user)
+        const user = await User.find(
+            {},
+            '_id username followers following'
+        ).populate('followers following', 'username')
+        res.json(user)
     } catch (error) {
         res.status(404).json({ error: error.message })
     }

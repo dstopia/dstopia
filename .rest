@@ -3,9 +3,9 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"naruto",
+    "username":"anonim",
     "gender":"female",
-    "email":"naruto@gmail.com",
+    "email":"anonim@gmail.com",
     "password":"123456",
     "confirm_password":"123456"
 }
@@ -18,7 +18,7 @@ GET http://localhost:3003/user
 ###
 
 // Menampilkan user BY ID
-GET http://localhost:3003/user/615c9ada01f35e107b009ef9
+GET http://localhost:3003/user/615d236eb8cf0b625206c863
 
 ###
 // Test login
@@ -26,7 +26,7 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-    "username":"naruto",
+    "username":"guest",
     "password":"123456"
 }
 ###
@@ -42,10 +42,10 @@ Content-Type: application/json
 
 // ceritanya si bellar ingin mengikuti si alexander
 {
-    // user yang akan difollow (alexander)
-    "followId":"614ed4348786e861772204b3",
-    // user yang akan memfollow (naruto)
-    "userId": "615c9ada01f35e107b009ef9"
+    // user yang akan difollow (anonim)
+    "followId":"615d236eb8cf0b625206c863",
+    // user yang akan memfollow (guest)
+    "userId": "615d22acb8cf0b62dsfsd5206c84e"
 }
 
 ###
@@ -56,9 +56,9 @@ Content-Type: application/json
 // ceritanya si bellar ingin tidak lagi mengikuti si alexander
 {
     // user yang akan diunfollow (alexander)
-    "unfollowId":"614ed4348786e861772204b3",
+    "unfollowId":"614ed4348786e863772204b3",
     // user yang akan mengunfollow (bellar)
-    "userId": "615c9ada01f35e107b009ef9"
+    "userId": "615c9ada01f35e107b009ef7"
 }
 
 ###
@@ -73,11 +73,21 @@ POST http://localhost:3003/post
 Content-Type: application/json
 
 {
-    "userId":"615c9ada01f35e107b009ef9",
-    "caption":"Hai nama saya naruto"
+    "userId":"615d22acb8cf0b625206c84e",
+    "caption":"hai welcome to dstopia",
+    "hashtag":"new user join"
 }
 
 ###
 
 // Menampilkan seluruh postingan
 GET http://localhost:3003/post
+###
+
+// Menghapus postingan by id
+GET http://localhost:3003/post/del/615d1be22cp242c8c2dada05
+
+###
+
+// Menghapus user by id
+GET  http://localhost:3003/user/del/614ed4368786e871772204b3

@@ -27,6 +27,9 @@ router.get('/login', isLoggedIn)
 // follow status
 router.get('/follow-status', followStatus)
 
+// delete user
+router.get('/del/:id', removeUser)
+
 // get user by id
 router.get('/:id', getUserById)
 
@@ -52,9 +55,6 @@ router.post('/login', checkUser)
 // Add user
 router.post('/', addUser)
 
-/** DELETE METHOD */
 
-// delete user
-router.delete('/', removeUser)
 
 module.exports = router
