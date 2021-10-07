@@ -16,6 +16,10 @@ const {
     followStatus,
 } = require('../controllers/user.controllers')
 
+const {
+    isAuth
+} = require('../middleware/isAuth')
+
 /** GET METHOD */
 
 // get user with post
@@ -28,7 +32,7 @@ router.get('/login', isLoggedIn)
 router.get('/follow-status', followStatus)
 
 // delete user
-router.get('/del/:id', removeUser)
+router.get('/del/:id', isAuth, removeUser)
 
 // get user by id
 router.get('/:id', getUserById)
@@ -39,13 +43,13 @@ router.get('/', getUsers)
 /**  PUT METHOD */
 
 // follow
-router.put('/follow', follow)
+router.put('/follow',isAuth, follow)
 
 // unfollow
-router.put('/unfollow', unFollow)
+router.put('/unfollow',isAuth, unFollow)
 
 // update user
-router.put('/update', updateUserData)
+router.put('/update', isAuth, updateUserData)
 
 /** POST METHOD */
 

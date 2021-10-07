@@ -141,7 +141,7 @@ exports.addUser = async (req, res) => {
             // create cookie with jwt token
             const token = createToken(user._id)
             res.cookie('jwt', token, {
-                maxAge: 24 * 60 * 60,
+                maxAge: 24 * 60 * 60 * 1000,
                 httpOnly: true,
             })
 
@@ -206,7 +206,7 @@ exports.checkUser = async (req, res) => {
         debug(token)
 
         res.cookie('jwt', token, {
-            maxAge: 24 * 60 * 60,
+            maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
         })
 
@@ -290,7 +290,9 @@ exports.removeUser = async (req, res) => {
             message: `user with id=${user._id} and username=${user.username} has been deleted`,
         })
     } catch (error) {
-        res.status(404).json({ error: error.message })
+        res.status(404).json({
+            error: error.message,
+        })
     }
 }
 
@@ -327,26 +329,30 @@ exports.follow = async (req, res) => {
         // selanjutnya, userId akan diganti dengan id user yang sedang login
         const { followId, userId } = req.body
         if (userId === followId) {
-            return res
-                .status(442)
-                .json({ message: 'Tidak boleh follow diri sendiri!' })
+            return res.status(442).json({
+                message: 'Tidak boleh follow diri sendiri!',
+            })
         }
 
         // cek apakah userid atau followid ada dalam database
         const user = await User.findById(userId)
         const followUser = await User.findById(followId)
         if (user === null) {
-            return res.status(442).json({ message: 'Kamu siapa?' })
+            return res.status(442).json({
+                message: 'Kamu siapa?',
+            })
         } else if (followUser === null) {
-            return res
-                .status(442)
-                .json({ message: 'Kamu mau mengikuti siapa?' })
+            return res.status(442).json({
+                message: 'Kamu mau mengikuti siapa?',
+            })
         }
 
         // cek apakah sudah mengikuti
         const existFollowers = followUser.followers.includes(userId)
         if (existFollowers) {
-            return res.status(442).json({ message: 'Sudah mengikuti' })
+            return res.status(442).json({
+                message: 'Sudah mengikuti',
+            })
         }
 
         // lakukan follow dan following
@@ -354,20 +360,32 @@ exports.follow = async (req, res) => {
             followId,
             {
                 // pake addToSet biar id yang sama tidak masuk
-                $addToSet: { followers: userId },
+                $addToSet: {
+                    followers: userId,
+                },
             },
-            { new: true }
+            {
+                new: true,
+            }
         )
         await User.findByIdAndUpdate(
             userId,
             {
-                $addToSet: { following: followId },
+                $addToSet: {
+                    following: followId,
+                },
             },
-            { new: true }
+            {
+                new: true,
+            }
         )
-        res.json({ message: 'Yeay! berhasil!' })
+        res.json({
+            message: 'Yeay! berhasil!',
+        })
     } catch (error) {
-        res.status(404).json({ error: 'Yahh, gagal!' })
+        res.status(404).json({
+            error: 'Yahh, gagal!',
+        })
     }
 }
 
@@ -378,45 +396,63 @@ exports.unFollow = async (req, res) => {
         // selanjutnya, userId akan diganti dengan id user yang sedang login
         const { unfollowId, userId } = req.body
         if (unfollowId === userId) {
-            return res.status(442).json({ message: 'Tidak boleh sama' })
+            return res.status(442).json({
+                message: 'Tidak boleh sama',
+            })
         }
 
         // cek apakah userid atau followid ada dalam database
         const poorPerson = await User.findById(userId)
         const famousPerson = await User.findById(unfollowId)
         if (poorPerson === null) {
-            return res.status(442).json({ message: 'Kamu siapa?' })
+            return res.status(442).json({
+                message: 'Kamu siapa?',
+            })
         } else if (famousPerson === null) {
-            return res
-                .status(422)
-                .json({ message: 'Siapa yang mau kamu unfollow?' })
+            return res.status(422).json({
+                message: 'Siapa yang mau kamu unfollow?',
+            })
         }
 
         // cek apakah belum mengikuti
         const existFollower = famousPerson.followers.includes(userId)
         if (!existFollower) {
-            return res.status(442).json({ message: 'Kamu belum mengikuti' })
+            return res.status(442).json({
+                message: 'Kamu belum mengikuti',
+            })
         }
 
         // lakukan unfollow
         await User.findByIdAndUpdate(
             unfollowId,
             {
-                $pull: { followers: userId },
+                $pull: {
+                    followers: userId,
+                },
             },
-            { new: true }
+            {
+                new: true,
+            }
         )
         await User.findByIdAndUpdate(
             userId,
             {
-                $pull: { following: unfollowId },
+                $pull: {
+                    following: unfollowId,
+                },
             },
-            { new: true }
+            {
+                new: true,
+            }
         )
 
-        res.json({ message: 'Success unfollow' })
+        res.json({
+            message: 'Success unfollow',
+        })
     } catch (error) {
-        res.status(404).json({ error: 'Fail unfollow' })
+        res.status(404).json({
+            error: 'Fail unfollow',
+        })
     }
 }
 
@@ -428,6 +464,8 @@ exports.followStatus = async (req, res) => {
         ).populate('followers following', 'username')
         res.json(user)
     } catch (error) {
-        res.status(404).json({ error: error.message })
+        res.status(404).json({
+            error: error.message,
+        })
     }
 }
