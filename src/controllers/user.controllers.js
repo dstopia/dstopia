@@ -149,6 +149,7 @@ exports.addUser = async (req, res) => {
             req.session.user = user
             res.json({
                 message: 'new user added',
+                user,
             })
         })
         .catch((error) => {
@@ -329,6 +330,30 @@ exports.follow = async (req, res) => {
     try {
         // selanjutnya, userId akan diganti dengan id user yang sedang login
         const { followId, userId } = req.body
+        if (userId === followId) {
+            return res
+                .status(442)
+                .json({ message: 'Tidak boleh follow diri sendiri!' })
+        }
+
+        // cek apakah userid atau followid ada dalam database
+        const user = await User.findById(userId)
+        const followUser = await User.findById(followId)
+        if (user === null) {
+            return res.status(442).json({ message: 'Kamu siapa?' })
+        } else if (followUser === null) {
+            return res
+                .status(442)
+                .json({ message: 'Kamu mau mengikuti siapa?' })
+        }
+
+        // cek apakah sudah mengikuti
+        const existFollowers = followUser.followers.includes(userId)
+        if (existFollowers) {
+            return res.status(442).json({ message: 'Sudah mengikuti' })
+        }
+
+        // lakukan follow dan following
         await User.findByIdAndUpdate(
             followId,
             {
@@ -344,10 +369,9 @@ exports.follow = async (req, res) => {
             },
             { new: true }
         )
-
-        res.json({ message: 'Success following' })
+        res.json({ message: 'Yeay! berhasil!' })
     } catch (error) {
-        res.status(404).json({ error: 'Fail to following' })
+        res.status(404).json({ error: 'Yahh, gagal!' })
     }
 }
 
@@ -357,6 +381,28 @@ exports.unFollow = async (req, res) => {
     try {
         // selanjutnya, userId akan diganti dengan id user yang sedang login
         const { unfollowId, userId } = req.body
+        if (unfollowId === userId) {
+            return res.status(442).json({ message: 'Tidak boleh sama' })
+        }
+
+        // cek apakah userid atau followid ada dalam database
+        const poorPerson = await User.findById(userId)
+        const famousPerson = await User.findById(unfollowId)
+        if (poorPerson === null) {
+            return res.status(442).json({ message: 'Kamu siapa?' })
+        } else if (famousPerson === null) {
+            return res
+                .status(422)
+                .json({ message: 'Siapa yang mau kamu unfollow?' })
+        }
+
+        // cek apakah belum mengikuti
+        const existFollower = famousPerson.followers.includes(userId)
+        if (!existFollower) {
+            return res.status(442).json({ message: 'Kamu belum mengikuti' })
+        }
+
+        // lakukan unfollow
         await User.findByIdAndUpdate(
             unfollowId,
             {
