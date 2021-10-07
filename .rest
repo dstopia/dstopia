@@ -3,9 +3,9 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"android02",
+    "username":"android01",
     "gender":"female",
-    "email":"android02@gmail.com",
+    "email":"android01@gmail.com",
     "password":"123456",
     "confirm_password":"123456"
 }

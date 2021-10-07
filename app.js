@@ -5,7 +5,6 @@ const createError = require('http-errors')
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
-const session = require('express-session')
 
 const app = express()
 
@@ -24,17 +23,7 @@ app.use(express.urlencoded({
     extended: false,
     limit: '50mb'
 }))
-app.use(
-    session({
-        key: 'userId',
-        secret: 'cookie secret',
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 60 * 60 * 24 * 1000,
-        },
-    })
-)
+
 
 // database connections
 require('./src/config/mongodb')

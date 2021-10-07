@@ -146,7 +146,7 @@ exports.addUser = async (req, res) => {
             })
 
             // set current user in session
-            req.session.user = user
+            req.user = user
             res.json({
                 message: 'new user added',
                 user,
@@ -168,7 +168,7 @@ exports.checkUser = async (req, res) => {
     const { username, password } = req.body
 
     let passToCheck = ''
-    let currentUser = {}
+    let currentUser = ''
 
     if (isEmail(username)) {
         // get user password by email
@@ -211,9 +211,9 @@ exports.checkUser = async (req, res) => {
         })
 
         // create user session
-        req.session.user = currentUser
+        req.user = currentUser
 
-        debug(req.session.user)
+        debug(req.user)
         return res.json(currentUser)
     } else {
         return res.status(403).json({
@@ -224,7 +224,7 @@ exports.checkUser = async (req, res) => {
 
 /** Cek if user already logged in */
 exports.isLoggedIn = (req, res) => {
-    if (req.session.user) {
+    if (req.user) {
         if (req.cookies) {
             debug(req.cookies)
         } else {
@@ -232,7 +232,7 @@ exports.isLoggedIn = (req, res) => {
         }
         res.json({
             loggedIn: true,
-            user: req.session.user,
+            user: req.user,
         })
     } else {
         res.json({
