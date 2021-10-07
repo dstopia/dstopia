@@ -10,9 +10,6 @@ const {
     removePost,
 } = require('../controllers/post.controllers')
 
-// file handler
-const upload = require('multer')()
-
 // delete post
 router.get('/del/:id', removePost)
 
@@ -20,7 +17,7 @@ router.get('/del/:id', removePost)
 router.get('/', getPost)
 
 // Add post
-router.post('/', upload.single('image'), addPost)
+router.post('/',  addPost)
 
 // update post
 router.put('/', updatePostCaption)

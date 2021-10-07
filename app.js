@@ -8,7 +8,7 @@ const session = require('express-session')
 
 const app = express()
 
-app.use(express.json())
+app.use(express.json({ limit: '50mb' }))
 app.use(
     cors({
         origin: ['http://localhost:3000'],
@@ -17,7 +17,7 @@ app.use(
     })
 )
 app.use(cookieParser())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false, limit: '50mb' }))
 app.use(
     session({
         key: 'userId',

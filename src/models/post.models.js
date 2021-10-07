@@ -12,9 +12,13 @@ const postSchema = new Schema(
             ref: 'User',
             required: true,
         },
-        img_post: {
+        img_post_id: {
             type: String,
-            default: 'https://source.unsplash.com/random/1254x836',
+            required: true,
+        },
+        img_post_url: {
+            type: String,
+            required: true,
         },
         timeSend: {
             type: String,
@@ -63,13 +67,16 @@ postSchema.methods.addToUserPost = function (userId) {
 
 // menambahkan hashtag yg sudah di format ke dalam bentuk array
 postSchema.methods.addHashtag = function (arr) {
-    return Post.updateOne({_id:this.id},{
-        $addToSet:{
-            hashtag:{
-                $each: arr
-            }
+    return Post.updateOne(
+        { _id: this.id },
+        {
+            $addToSet: {
+                hashtag: {
+                    $each: arr,
+                },
+            },
         }
-    })
+    )
 }
 
 const Post = mongoose.model('Post', postSchema)
