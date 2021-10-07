@@ -1,16 +1,28 @@
 'use strict'
 
-const Post = require('../models/post.models')
 const debug = require('debug')('dev')
-const { validateImage } = require('../utils/validateImage')
+const { cloudinary } = require('../config/cloudinary')
+const Post = require('../models/post.models')
+require('dotenv').config()
 
 // create new post
-exports.addPost = (req, res) => {
-    const { userId, caption, hashtag } = req.body
+exports.addPost = async (req, res) => {
+    const { userId, caption, hashtag, image } = req.body
 
-    // handle image
-    const image = validateImage(req.file)
-    console.log({ image })
+    let img_post_id = ''
+    let img_post_url = ''
+
+    // handle upload image
+    try {
+        const uploadResponse = await cloudinary.uploader.upload(image, {
+            upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
+        })
+        debug(uploadResponse)
+        img_post_id = uploadResponse.public_id
+        img_post_url = uploadResponse.secure_url
+    } catch (error) {
+        return res.json({ error: error.message })
+    }
 
     // cek caption length
 
@@ -31,7 +43,7 @@ exports.addPost = (req, res) => {
     }
 
     // create new post model
-    const post = new Post({ user: userId, caption })
+    const post = new Post({ user: userId, caption, img_post_id, img_post_url })
 
     // save new post
     post.save(async (error, result) => {
