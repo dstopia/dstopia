@@ -1,5 +1,6 @@
 'use strict'
 
+require('dotenv').config()
 const createError = require('http-errors')
 const express = require('express')
 const cors = require('cors')
@@ -8,7 +9,9 @@ const session = require('express-session')
 
 const app = express()
 
-app.use(express.json({ limit: '50mb' }))
+app.use(express.json({
+    limit: '50mb'
+}))
 app.use(
     cors({
         origin: ['http://localhost:3000'],
@@ -17,7 +20,10 @@ app.use(
     })
 )
 app.use(cookieParser())
-app.use(express.urlencoded({ extended: false, limit: '50mb' }))
+app.use(express.urlencoded({
+    extended: false,
+    limit: '50mb'
+}))
 app.use(
     session({
         key: 'userId',
@@ -25,7 +31,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 60 * 60 * 24,
+            maxAge: 60 * 60 * 24 * 1000,
         },
     })
 )
@@ -56,7 +62,9 @@ app.use(function (err, req, res) {
 
     // render the error page
     res.status(err.status || 500)
-    res.json({ message: 'Page Not Found' })
+    res.json({
+        message: 'Page Not Found'
+    })
 })
 
 module.exports = app
