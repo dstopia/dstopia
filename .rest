@@ -3,9 +3,9 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"anonim",
+    "username":"android02",
     "gender":"female",
-    "email":"anonim@gmail.com",
+    "email":"android02@gmail.com",
     "password":"123456",
     "confirm_password":"123456"
 }
@@ -42,10 +42,10 @@ Content-Type: application/json
 
 // ceritanya si bellar ingin mengikuti si alexander
 {
-    // user yang akan difollow (anonim)
+    // user yang akan difollow (android02)
     "followId":"615d236eb8cf0b625206c863",
-    // user yang akan memfollow (guest)
-    "userId": "615d22acb8cf0b62dsfsd5206c84e"
+    // user yang akan memfollow (android01)
+    "userId": "615e8e1bc9715ae9c37caf44"
 }
 
 ###
@@ -55,10 +55,10 @@ Content-Type: application/json
 
 // ceritanya si bellar ingin tidak lagi mengikuti si alexander
 {
-    // user yang akan diunfollow (alexander)
-    "unfollowId":"614ed4348786e863772204b3",
+    // user yang akan diunfollow (android02)
+    "unfollowId":"615d236eb8cf0b625206c863",
     // user yang akan mengunfollow (bellar)
-    "userId": "615c9ada01f35e107b009ef7"
+    "userId": "615e8e1bc9715ae1c37caf44"
 }
 
 ###
