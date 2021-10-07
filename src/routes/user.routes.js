@@ -43,13 +43,13 @@ router.get('/', getUsers)
 /**  PUT METHOD */
 
 // follow
-router.put('/follow', follow)
+router.put('/follow',isAuth, follow)
 
 // unfollow
-router.put('/unfollow', unFollow)
+router.put('/unfollow',isAuth, unFollow)
 
 // update user
-router.put('/update', updateUserData)
+router.put('/update', isAuth, updateUserData)
 
 /** POST METHOD */
 
