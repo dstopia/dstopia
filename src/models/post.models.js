@@ -30,6 +30,11 @@ const postSchema = new Schema(
             default: 'No Caption',
             required: true,
         },
+        hashtag: [
+            {
+                type: String,
+            },
+        ],
         comment: [
             {
                 type: Schema.Types.ObjectId,
@@ -43,16 +48,28 @@ const postSchema = new Schema(
 )
 
 // post methods
+
+// push post id to user collection post array
 postSchema.methods.addToUserPost = function (userId) {
-    // push post id to user collection post array
     return User.findByIdAndUpdate(
         { _id: userId },
         {
-            $push: {
+            $addToSet: {
                 post: this._id,
             },
         }
     )
+}
+
+// menambahkan hashtag yg sudah di format ke dalam bentuk array
+postSchema.methods.addHashtag = function (arr) {
+    return Post.updateOne({_id:this.id},{
+        $addToSet:{
+            hashtag:{
+                $each: arr
+            }
+        }
+    })
 }
 
 const Post = mongoose.model('Post', postSchema)

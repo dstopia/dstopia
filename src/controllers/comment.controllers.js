@@ -1,6 +1,6 @@
 'use strict'
 
-const PostComment = rewuire('../models/comment.models')
+const PostComment = require('../models/comment.models')
 
 exports.addComment = (req, res ) => {
         const {senderId, msg} = req.body
@@ -11,7 +11,7 @@ exports.addComment = (req, res ) => {
         })
         
         comment.save()
-        .then((result)=> {
+        .then((res)=> {
             res.json({msg:'Comment added'})
         })
         . catch((error) => {

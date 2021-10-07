@@ -3,9 +3,9 @@ POST http://localhost:3003/user
 Content-Type: application/json
 
 {
-    "username":"dsdgi",
-    "gender":"femsle",
-    "email":"drsg@erw.com",
+    "username":"android02",
+    "gender":"female",
+    "email":"android02@gmail.com",
     "password":"123456",
     "confirm_password":"123456"
 }
@@ -18,7 +18,7 @@ GET http://localhost:3003/user
 ###
 
 // Menampilkan user BY ID
-GET http://localhost:3003/user/615a74137db6fd96d217ec07
+GET http://localhost:3003/user/615d236eb8cf0b625206c863
 
 ###
 // Test login
@@ -26,8 +26,8 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-    "username":"kampung",
-    "password":"67werewrewr"
+    "username":"guest",
+    "password":"123456"
 }
 ###
 
@@ -42,10 +42,10 @@ Content-Type: application/json
 
 // ceritanya si bellar ingin mengikuti si alexander
 {
-    // user yang akan difollow (alexander)
-    "followId":"614ed4348786e861772204b3",
-    // user yang akan memfollow (bellar)
-    "userId": "614ed7f3ee564732476899df"
+    // user yang akan difollow (android02)
+    "followId":"615d236eb8cf0b625206c863",
+    // user yang akan memfollow (android01)
+    "userId": "615e8e1bc9715ae9c37caf44"
 }
 
 ###
@@ -55,11 +55,15 @@ Content-Type: application/json
 
 // ceritanya si bellar ingin tidak lagi mengikuti si alexander
 {
-    // user yang akan difollow (alexander)
-    "unfollowId":"614ed4348786e861772204b3",
-    // user yang akan memfollow (bellar)
-    "userId": "614ed7f3ee564732476899df"
+    // user yang akan diunfollow (android02)
+    "unfollowId":"615d236eb8cf0b625206c863",
+    // user yang akan mengunfollow (bellar)
+    "userId": "615e8e1bc9715ae1c37caf44"
 }
+
+###
+// Menampilkan followers dan following user
+GET http://localhost:3003/user/follow-status
 
 
 ###
@@ -69,11 +73,21 @@ POST http://localhost:3003/post
 Content-Type: application/json
 
 {
-    "userId":"615a74137db6fd96d217ec07",
-    "caption":"Hai nama saya dewi"
+    "userId":"615d22acb8cf0b625206c84e",
+    "caption":"hai welcome to dstopia",
+    "hashtag":"new user join"
 }
 
 ###
 
 // Menampilkan seluruh postingan
 GET http://localhost:3003/post
+###
+
+// Menghapus postingan by id
+GET http://localhost:3003/post/del/615d1be22cp242c8c2dada05
+
+###
+
+// Menghapus user by id
+GET  http://localhost:3003/user/del/614ed4368786e871772204b3
