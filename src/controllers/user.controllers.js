@@ -177,7 +177,7 @@ exports.checkUser = async (req, res) => {
                 email: username,
             },
             'username password email desc post followers following img_thumb img_bg'
-        )
+        ).populate('post')
         if (!user) {
             return res.status(404).json({
                 error: 'email not found',
@@ -193,7 +193,7 @@ exports.checkUser = async (req, res) => {
                 username,
             },
             'username email desc post password followers following img_thumb img_bg'
-        )
+        ).populate('post')
         if (!user) {
             return res.status(404).json({
                 error: 'username not found',
