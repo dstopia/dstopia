@@ -2,12 +2,18 @@
 
 const Post = require('../models/post.models')
 const debug = require('debug')('dev')
+const { validateImage } = require('../utils/validateImage')
 
 // create new post
 exports.addPost = (req, res) => {
     const { userId, caption, hashtag } = req.body
 
+    // handle image
+    const image = validateImage(req.file)
+    console.log({ image })
+
     // cek caption length
+
     if (caption.length > 100) {
         return res.json({ error: 'caption must be less than 100 character' })
     }

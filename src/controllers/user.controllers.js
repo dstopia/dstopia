@@ -289,7 +289,9 @@ exports.removeUser = async (req, res) => {
     try {
         const { id } = req.params
         const user = await User.findByIdAndDelete(id)
-        res.json({message:`user with id=${user._id} and username=${user.username} has been deleted`})
+        res.json({
+            message: `user with id=${user._id} and username=${user.username} has been deleted`,
+        })
     } catch (error) {
         res.status(404).json({ error: error.message })
     }
